@@ -10,14 +10,14 @@ services:
 
   mariadb:
     container_name: mariadb
-    build: requirements/mariadb/.
+    build: ./requirements/mariadb/.
     restart: always
     port:
       -3306:3306
   
   wordpress:
     container_name: wordpress
-    build: requirements/wordpress/.
+    build: ./requirements/wordpress/.
     restart: always
     port:
-      -3306:9000
+      -9000:9000
