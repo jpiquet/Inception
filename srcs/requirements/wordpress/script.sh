@@ -33,6 +33,6 @@ if wp core is-installed --allow-root --path=/var/www/html >/dev/null 2>&1; then
 fi
 
 # on execute php-fpm au premier plan grace a -F (forground)
-exec php-fpm8.4 -F
+exec php-fpm8.2 -F
 
 # Changer le --allow-root car peu etre dangereux, mais pour le moment on le laisse pour que ça fonctionne.

@@ -1,4 +1,5 @@
-name: Inception
+#version: "3"
+#name: Inception
 
 services:
   nginx:
@@ -9,29 +10,39 @@ services:
       - 443:443
     depends_on:
       - wordpress
+    networks:
+      - inception
 
   wordpress:
     container_name: wordpress
     build: ./requirements/wordpress/.
     volumes:
-      - /home/login/data/wordpress:/var/www/html
+      - /home/jpiquet/data/wordpress:/var/www/html
     expose:
       - 9000
     depends_on:
       - mariadb
-    env file:
+    env_file:
       - .env
+    networks:
+      - inception
     restart: always
 
   mariadb:
     container_name: mariadb
     build: ./requirements/mariadb/.
     volumes:
-      - /home/login/data/mariadb:/var/lib/mysql
+      - /home/jpiquet/data/mariadb:/var/lib/mysql
     expose:
       - 3306
     environment:
       DB_NAME: ${MYSQL_DATABASE}
       DB_USER: ${MYSQL_USER}
       DB_PASSWORD: ${MYSQL_PASSWORD}
+    networks:
+      - inception
     restart: always
+
+networks:
+  inception:
+    driver: bridge

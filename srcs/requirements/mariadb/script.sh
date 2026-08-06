@@ -1,9 +1,19 @@
 #!/bin/bash
 
 #crée le dossier pour le socket de MariaDB
-mkdir -p /var/run/mysqld
+mkdir -p /run/mysqld
+
 #on définit le propriétaire du dossier sur l'utilisateur mysql pour que MariaDB puisse y accéder
-chown mysql:mysql /var/run/mysqld
+chown mysql:mysql /run/mysqld
+
+
+# on initialise le dsossier qui stockera les fichiers de la base de donné (sur le volume monté)
+if [ ! -d "/var/lib/mysql/mysql" ]; then
+    mariadb-install-db --user=mysql --datadir=/var/lib/mysql
+fi
+
+# on change les permissions du dossier pour etre sur que le user mysql puisse apporter des modifications
+#chown mysql:mysql /var/lib/mysql
 
 # on démarre le serveur MariaDB en arrière-plan et on récupère son PID
 mariadbd --user=mysql &

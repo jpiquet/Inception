@@ -10,13 +10,14 @@ RUN apt update -y \
 	&& mv wordpress/* /var/www/html
 
 #INTALL PHP-FPM
-RUN apt install php-fpm8.4 -y \
-	php-mysql -y \
-	php-curl -y \
-	php-gd -y \
-	php-mbstring -y \
-	php-xml -y \
-	php-zip -y
+RUN apt install -y \
+	php8.2-fpm \
+	php8.2-mysql \
+	php8.2-curl \
+	php8.2-gd \
+	php8.2-mbstring \
+	php8.2-xml \
+	php8.2-zip
 
 # on installe WP-CLI pour gérer WordPress en ligne de commande
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \

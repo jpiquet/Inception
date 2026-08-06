@@ -1,4 +1,3 @@
 FROM debian:bookworm
 
-# Met à jour, installe nginx et openssl
-RUN apt update && apt install nginx -y && apt install openssl -y
+RUN apt update -y && apt install -y php8.2-fpm
