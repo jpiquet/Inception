@@ -6,7 +6,6 @@ mkdir -p /run/mysqld
 #on définit le propriétaire du dossier sur l'utilisateur mysql pour que MariaDB puisse y accéder
 chown mysql:mysql /run/mysqld
 
-
 # on initialise le dsossier qui stockera les fichiers de la base de donné (sur le volume monté)
 if [ ! -d "/var/lib/mysql/mysql" ]; then
     mariadb-install-db --user=mysql --datadir=/var/lib/mysql

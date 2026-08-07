@@ -1,10 +1,27 @@
 #version: "3"
 #name: Inception
 
+#volumes:
+#  wordpress:
+#    driver: local
+#    driver_opts:
+#      type: none
+#      o: bind
+#      device: /home/jocelyn/data/wordpress
+#  mariadb:
+#    driver: local
+#    driver_opts:
+#      type: none
+#      o: bind
+#      device: /home/jocelyn/data/mariadb
+
 services:
   nginx:
     container_name: nginx
     build: requirements/nginx/.
+    volumes:
+      - /home/jocelyn/data/wordpress:/var/www/html
+#      - wordpress:/var/www/html
     restart: always
     ports:
       - 443:443
@@ -17,7 +34,8 @@ services:
     container_name: wordpress
     build: ./requirements/wordpress/.
     volumes:
-      - /home/jpiquet/data/wordpress:/var/www/html
+      - /home/jocelyn/data/wordpress:/var/www/html
+#      - wordpress:/var/www/html
     expose:
       - 9000
     depends_on:
@@ -32,7 +50,8 @@ services:
     container_name: mariadb
     build: ./requirements/mariadb/.
     volumes:
-      - /home/jpiquet/data/mariadb:/var/lib/mysql
+      - /home/jocelyn/data/mariadb:/var/lib/mysql
+#     - mariadb:/var/lib/mysql
     expose:
       - 3306
     environment:
