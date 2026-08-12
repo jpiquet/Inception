@@ -18,8 +18,6 @@ RUN openssl req -x509 \
 	-keyout /etc/ssl/private/inception.key \
 	-subj /C=FR/ST=RH/L=Lyon/O=42/OU=42/CN=jpiquet.42.fr
 
-# RUN echo "<h1>NGINX fonctionne ! </h1>" > /var/www/html/index.html
-
 # On copy la conf qu'on a fait pour remplacer celle de nginx de base.
 COPY conf/nginx.conf /etc/nginx/nginx.conf
 

@@ -3,8 +3,8 @@ FROM debian:bookworm
 RUN apt update -y && apt install mariadb-server -y
 
 COPY conf/50-server.cnf /etc/mysql/mariadb.conf.d/.
-COPY script.sh /script.sh
+COPY entrypoint.sh /entrypoint.sh
 
-RUN chmod +x /script.sh
+RUN chmod +x /entrypoint.sh
 
-CMD ["/script.sh"]
+CMD ["/entrypoint.sh"]

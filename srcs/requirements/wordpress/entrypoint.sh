@@ -1,7 +1,5 @@
 #!/bin/bash
 
-echo "Début du script"
-
 # on copie les fichiers de wordpress dans le dossier /var/www/html uniquement si il n'existe pas déjá un fichier index.php
 if [ ! -f "/var/www/html/index.php" ]; then
     cp -a /wordpress/. /var/www/html/
@@ -11,14 +9,14 @@ fi
 # uniquement si il n'existe pas déjá
 if [ ! -f "/var/www/html/wp-config.php" ]; then
 	wp config create --allow-root \
-		--dbname=${MYSQL_DATABASE} \
-		--dbuser=${MYSQL_USER} \
-		--dbpass=${MYSQL_PASSWORD} \
+		--dbname=${DB_NAME} \
+		--dbuser=${DB_USER} \
+		--dbpass=${DB_PASSWORD_FILE} \
 		--dbhost=mariadb \
 		--path=/var/www/html
 fi
 
-echo "Fichier de configuration wp-config.php créé"
+echo "Configuration file wp-config.php was created successfully"
 
 # on installe WordPress avec les informations fournies dans le fichier .env
 if ! wp core is-installed --allow-root --path=/var/www/html >/dev/null 2>&1; then
@@ -37,9 +35,9 @@ if ! wp core is-installed --allow-root --path=/var/www/html >/dev/null 2>&1; the
 	--path=/var/www/html
 fi
 
-echo "WordPress installé avec succès"
+echo "WordPress installed successfully"
+
+rm -rf /run/secrets
 
 # on execute php-fpm au premier plan grace a -F (forground)
 exec php-fpm8.2 -F
-
-# Changer le --allow-root car peu etre dangereux, mais pour le moment on le laisse pour que ça fonctionne.

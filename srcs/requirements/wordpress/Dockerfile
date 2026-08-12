@@ -20,8 +20,8 @@ RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.ph
 	&& chmod +x /usr/local/bin/wp
 
 COPY conf/www.conf /etc/php/8.2/fpm/pool.d/.
-COPY script.sh /script.sh
+COPY entrypoint.sh /entrypoint.sh
 
-RUN chmod +x /script.sh
+RUN chmod +x /entrypoint.sh
 
-CMD ["/script.sh"]
+CMD ["/entrypoint.sh"]
