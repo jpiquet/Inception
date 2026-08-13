@@ -1,9 +1,9 @@
 #!/bin/bash
 
-#crée le dossier pour le socket de MariaDB
+# crée le dossier pour le socket de MariaDB
 mkdir -p /run/mysqld
 
-#on définit le propriétaire du dossier sur l'utilisateur mysql pour que MariaDB puisse y accéder
+# on définit le propriétaire du dossier sur l'utilisateur mysql pour que MariaDB puisse y accéder
 chown mysql:mysql /run/mysqld
 
 # on initialise le dsossier qui stockera les fichiers de la base de donné (sur le volume monté)
@@ -23,18 +23,19 @@ until mariadb -u root -e "SELECT 1;" >/dev/null 2>&1; do
     sleep 1
 done
 
-#on crée la base de données wordpress si elle n'existe pas déjà
-#on crée l'utilisateur 'jocelyn' avec le mot de passe 'jocelyn' s'il n'existe pas déjà
-#on accorde tous les privilèges sur la base de données 'wordpress' à l'utilisateur 'jocelyn'
-#on applique les changements de privilèges
+# on crée la base de données wordpress si elle n'existe pas déjà
+# on crée l'utilisateur 'db_user' avec le mot de passe 'db_password' s'il n'existe pas déjà
+# on accorde tous les privilèges sur la base de données 'wordpress' à l'utilisateur ''
+# on applique les changements de privilèges
 mariadb -u root <<EOF
 CREATE DATABASE IF NOT EXISTS ${DB_NAME};
-CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD_FILE}';
+CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '$(cat /run/secrets/db_password)';
+ALTER USER 'root'@'localhost' IDENTIFIED BY '$(cat /run/secrets/db_root_password)';
 CREATE USER IF NOT EXISTS 'healthcheck'@'localhost';
 GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';
-ALTER USER 'root'@'localhost' IDENTIFIED BY '${DB_ROOT_PASSWORD_FILE}';
 FLUSH PRIVILEGES;
 EOF
+
 
 #on arrête le serveur MariaDB
 kill "$PID"

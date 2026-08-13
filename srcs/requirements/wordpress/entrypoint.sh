@@ -11,7 +11,7 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
 	wp config create --allow-root \
 		--dbname=${DB_NAME} \
 		--dbuser=${DB_USER} \
-		--dbpass=${DB_PASSWORD_FILE} \
+		--dbpass=$(cat /run/secrets/db_password) \
 		--dbhost=mariadb \
 		--path=/var/www/html
 fi
@@ -23,15 +23,15 @@ if ! wp core is-installed --allow-root --path=/var/www/html >/dev/null 2>&1; the
 	wp core install --allow-root \
 		--url=${URL_NAME} \
 		--title=${TITLE_NAME} \
-		--admin_user=${ADMIN_USER} \
-		--admin_password=${ADMIN_PASSWORD} \
+		--admin_user=${ADMIN_NAME} \
+		--admin_password=$(cat /run/secrets/admin_password) \
 		--admin_email=${ADMIN_EMAIL} \
 		--path=/var/www/html
 
 	wp user create --allow-root \
-	${WP_USER} \
-	${WP_EMAIL} \
-	--user_pass=${WP_PASSWORD} \
+	${USER_NAME} \
+	${USER_EMAIL} \
+	--user_pass=$(cat /run/secrets/user_password) \
 	--path=/var/www/html
 fi
 

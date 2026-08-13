@@ -3,11 +3,11 @@
 
 services:
   nginx:
-    image : nginx
+    image: nginx
     container_name: nginx
     build: requirements/nginx/.
     volumes:
-     - wordpress:/var/www/html
+      - wordpress:/var/www/html
     ports:
       - 443:443
     depends_on:
@@ -28,10 +28,10 @@ services:
       - mariadb
     env_file:
       - .env
-    environment:
-      DB_PASSWORD_FILE: /run/secrets/db_password
     secrets:
       - db_password
+      - user_password
+      - admin_password
     networks:
       - inception
     restart: always
@@ -45,16 +45,14 @@ services:
     expose:
       - 3306
     healthcheck:
-      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "healthcheck"]
+      test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "healthcheck" ]
       interval: 5s
       timeout: 5s
       retries: 5
-      start_period: 10s
+      start_period: 2s
     environment:
       DB_NAME: ${DB_NAME}
       DB_USER: ${DB_USER}
-      DB_PASSWORD_FILE: /run/secrets/db_password
-      DB_ROOT_PASSWORD_FILE: /run/secrets/db_root_password
     secrets:
       - db_password
       - db_root_password
@@ -64,23 +62,27 @@ services:
 
 secrets:
   db_password:
-    file: /home/jocelyn/Inception/secrets/db_password.txt
+    file: /home/${HOSTNAME}/Inception/secrets/db_password.txt
   db_root_password:
-    file: /home/jocelyn/Inception/secrets/db_root_password.txt
+    file: /home/${HOSTNAME}/Inception/secrets/db_root_password.txt
+  admin_password:
+    file: /home/${HOSTNAME}/Inception/secrets/admin_password.txt
+  user_password:
+    file: /home/${HOSTNAME}/Inception/secrets/user_password.txt
 
 volumes:
- wordpress:
-   driver: local
-   driver_opts:
-     type: none
-     o: bind
-     device: /home/jocelyn/data/wordpress
- mariadb:
-   driver: local
-   driver_opts:
-     type: none
-     o: bind
-     device: /home/jocelyn/data/mariadb
+  wordpress:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/${HOSTNAME}/data/wordpress
+  mariadb:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: /home/${HOSTNAME}/data/mariadb
 
 networks:
   inception:

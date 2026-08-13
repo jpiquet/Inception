@@ -1,4 +1,2 @@
 - Faire le healthcheck pour mariadb
-- Faire le healthcheck pour wordpress
-- Supprimer le dossier /run/secrets dans le script une fois que tout a été crée
 - Faire le Makefile
