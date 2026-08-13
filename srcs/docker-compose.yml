@@ -59,16 +59,17 @@ services:
     networks:
       - inception
     restart: always
+    init: true
 
 secrets:
   db_password:
-    file: /home/${HOSTNAME}/Inception/secrets/db_password.txt
+    file: /home/${USER}/Inception/secrets/db_password.txt
   db_root_password:
-    file: /home/${HOSTNAME}/Inception/secrets/db_root_password.txt
+    file: /home/${USER}/Inception/secrets/db_root_password.txt
   admin_password:
-    file: /home/${HOSTNAME}/Inception/secrets/admin_password.txt
+    file: /home/${USER}/Inception/secrets/admin_password.txt
   user_password:
-    file: /home/${HOSTNAME}/Inception/secrets/user_password.txt
+    file: /home/${USER}/Inception/secrets/user_password.txt
 
 volumes:
   wordpress:
@@ -76,13 +77,13 @@ volumes:
     driver_opts:
       type: none
       o: bind
-      device: /home/${HOSTNAME}/data/wordpress
+      device: /home/${USER}/data/wordpress
   mariadb:
     driver: local
     driver_opts:
       type: none
       o: bind
-      device: /home/${HOSTNAME}/data/mariadb
+      device: /home/${USER}/data/mariadb
 
 networks:
   inception:

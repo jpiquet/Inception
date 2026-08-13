@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -eu
+
 # on copie les fichiers de wordpress dans le dossier /var/www/html uniquement si il n'existe pas déjá un fichier index.php
 if [ ! -f "/var/www/html/index.php" ]; then
     cp -a /wordpress/. /var/www/html/
@@ -36,8 +38,6 @@ if ! wp core is-installed --allow-root --path=/var/www/html >/dev/null 2>&1; the
 fi
 
 echo "WordPress installed successfully"
-
-rm -rf /run/secrets
 
 # on execute php-fpm au premier plan grace a -F (forground)
 exec php-fpm8.2 -F
