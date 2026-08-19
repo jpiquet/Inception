@@ -1,0 +1,247 @@
+[
+    {
+        "Id": "7b190c5ab61334a08bbef1255ad75ef05f4e3b26c05501fd4d5acda299fe12a1",
+        "Created": "2026-08-19T09:32:55.794530793Z",
+        "Path": "nginx",
+        "Args": [
+            "-g",
+            "daemon off;"
+        ],
+        "State": {
+            "Status": "running",
+            "Running": true,
+            "Paused": false,
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 34336,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2026-08-19T09:33:02.172078838Z",
+            "FinishedAt": "0001-01-01T00:00:00Z"
+        },
+        "Image": "sha256:660a48278b04bbccfbfe6dbe6017a1c00cf0ffd22be99b30b47f74cd6a5e410b",
+        "ResolvConfPath": "/var/lib/docker/containers/7b190c5ab61334a08bbef1255ad75ef05f4e3b26c05501fd4d5acda299fe12a1/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/7b190c5ab61334a08bbef1255ad75ef05f4e3b26c05501fd4d5acda299fe12a1/hostname",
+        "HostsPath": "/var/lib/docker/containers/7b190c5ab61334a08bbef1255ad75ef05f4e3b26c05501fd4d5acda299fe12a1/hosts",
+        "LogPath": "/var/lib/docker/containers/7b190c5ab61334a08bbef1255ad75ef05f4e3b26c05501fd4d5acda299fe12a1/7b190c5ab61334a08bbef1255ad75ef05f4e3b26c05501fd4d5acda299fe12a1-json.log",
+        "Name": "/nginx",
+        "RestartCount": 0,
+        "Driver": "overlayfs",
+        "Platform": "linux",
+        "MountLabel": "",
+        "ProcessLabel": "",
+        "AppArmorProfile": "docker-default",
+        "ExecIDs": null,
+        "HostConfig": {
+            "Binds": [
+                "srcs_wordpress:/var/www/html:rw"
+            ],
+            "ContainerIDFile": "",
+            "LogConfig": {
+                "Type": "json-file",
+                "Config": {}
+            },
+            "NetworkMode": "srcs_inception",
+            "PortBindings": {
+                "443/tcp": [
+                    {
+                        "HostIp": "",
+                        "HostPort": "443"
+                    }
+                ]
+            },
+            "RestartPolicy": {
+                "Name": "always",
+                "MaximumRetryCount": 0
+            },
+            "AutoRemove": false,
+            "VolumeDriver": "",
+            "VolumesFrom": null,
+            "ConsoleSize": [
+                0,
+                0
+            ],
+            "CapAdd": null,
+            "CapDrop": null,
+            "CgroupnsMode": "private",
+            "Dns": null,
+            "DnsOptions": null,
+            "DnsSearch": null,
+            "ExtraHosts": [],
+            "GroupAdd": null,
+            "IpcMode": "private",
+            "Cgroup": "",
+            "Links": null,
+            "OomScoreAdj": 0,
+            "PidMode": "",
+            "Privileged": false,
+            "PublishAllPorts": false,
+            "ReadonlyRootfs": false,
+            "SecurityOpt": null,
+            "UTSMode": "",
+            "UsernsMode": "",
+            "ShmSize": 67108864,
+            "Runtime": "runc",
+            "Isolation": "",
+            "CpuShares": 0,
+            "Memory": 0,
+            "NanoCpus": 0,
+            "CgroupParent": "",
+            "BlkioWeight": 0,
+            "BlkioWeightDevice": null,
+            "BlkioDeviceReadBps": null,
+            "BlkioDeviceWriteBps": null,
+            "BlkioDeviceReadIOps": null,
+            "BlkioDeviceWriteIOps": null,
+            "CpuPeriod": 0,
+            "CpuQuota": 0,
+            "CpuRealtimePeriod": 0,
+            "CpuRealtimeRuntime": 0,
+            "CpusetCpus": "",
+            "CpusetMems": "",
+            "Devices": null,
+            "DeviceCgroupRules": null,
+            "DeviceRequests": null,
+            "MemoryReservation": 0,
+            "MemorySwap": 0,
+            "MemorySwappiness": null,
+            "OomKillDisable": null,
+            "PidsLimit": null,
+            "Ulimits": null,
+            "CpuCount": 0,
+            "CpuPercent": 0,
+            "IOMaximumIOps": 0,
+            "IOMaximumBandwidth": 0,
+            "MaskedPaths": [
+                "/proc/acpi",
+                "/proc/asound",
+                "/proc/interrupts",
+                "/proc/kcore",
+                "/proc/keys",
+                "/proc/latency_stats",
+                "/proc/sched_debug",
+                "/proc/scsi",
+                "/proc/timer_list",
+                "/proc/timer_stats",
+                "/sys/devices/virtual/powercap",
+                "/sys/firmware"
+            ],
+            "ReadonlyPaths": [
+                "/proc/bus",
+                "/proc/fs",
+                "/proc/irq",
+                "/proc/sys",
+                "/proc/sysrq-trigger"
+            ]
+        },
+        "Storage": {
+            "RootFS": {
+                "Snapshot": {
+                    "Name": "overlayfs"
+                }
+            }
+        },
+        "Mounts": [
+            {
+                "Type": "volume",
+                "Name": "srcs_wordpress",
+                "Source": "/var/lib/docker/volumes/srcs_wordpress/_data",
+                "Destination": "/var/www/html",
+                "Driver": "local",
+                "Mode": "rw",
+                "RW": true,
+                "Propagation": ""
+            }
+        ],
+        "Config": {
+            "Hostname": "7b190c5ab613",
+            "Domainname": "",
+            "User": "",
+            "AttachStdin": false,
+            "AttachStdout": true,
+            "AttachStderr": true,
+            "ExposedPorts": {
+                "443/tcp": {}
+            },
+            "Tty": false,
+            "OpenStdin": false,
+            "StdinOnce": false,
+            "Env": [
+                "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+            ],
+            "Cmd": [
+                "nginx",
+                "-g",
+                "daemon off;"
+            ],
+            "Image": "nginx",
+            "Volumes": null,
+            "WorkingDir": "",
+            "Entrypoint": null,
+            "Labels": {
+                "com.docker.compose.config-hash": "43a4be1bc6bf707adb219abd0e5f4c4ce30c0a05db4ab8d6087c99e4d2d4accb",
+                "com.docker.compose.container-number": "1",
+                "com.docker.compose.depends_on": "wordpress:service_started:false",
+                "com.docker.compose.image": "sha256:660a48278b04bbccfbfe6dbe6017a1c00cf0ffd22be99b30b47f74cd6a5e410b",
+                "com.docker.compose.oneoff": "False",
+                "com.docker.compose.project": "srcs",
+                "com.docker.compose.project.config_files": "/home/jpiquet/Inception/srcs/docker-compose.yml",
+                "com.docker.compose.project.working_dir": "/home/jpiquet/Inception/srcs",
+                "com.docker.compose.replace": "nginx",
+                "com.docker.compose.service": "nginx",
+                "com.docker.compose.version": "5.3.1"
+            }
+        },
+        "NetworkSettings": {
+            "SandboxID": "4097a47344907dbf9a59589a404612edba605080056eaf0d167062732385e034",
+            "SandboxKey": "/var/run/docker/netns/4097a4734490",
+            "Ports": {
+                "443/tcp": [
+                    {
+                        "HostIp": "0.0.0.0",
+                        "HostPort": "443"
+                    },
+                    {
+                        "HostIp": "::",
+                        "HostPort": "443"
+                    }
+                ]
+            },
+            "Networks": {
+                "srcs_inception": {
+                    "IPAMConfig": null,
+                    "Links": null,
+                    "Aliases": [
+                        "nginx",
+                        "nginx"
+                    ],
+                    "DriverOpts": null,
+                    "GwPriority": 0,
+                    "NetworkID": "ac3668512e91043d27e34b2a8ff7b5e144bca3c063927a06c1c5bb248c33a890",
+                    "EndpointID": "78a8503b3fd571a97263f5618d34aafc88aed69668505119f012bdef3355f915",
+                    "Gateway": "172.18.0.1",
+                    "IPAddress": "172.18.0.4",
+                    "MacAddress": "d2:ba:e0:1a:17:7b",
+                    "IPPrefixLen": 16,
+                    "IPv6Gateway": "",
+                    "GlobalIPv6Address": "",
+                    "GlobalIPv6PrefixLen": 0,
+                    "DNSNames": [
+                        "nginx",
+                        "7b190c5ab613"
+                    ]
+                }
+            }
+        },
+        "ImageManifestDescriptor": {
+            "mediaType": "application/vnd.oci.image.manifest.v1+json",
+            "digest": "sha256:5e9a7ae01d719f4b812e34df1b8403816f758b01f6e18da1abeee64c69a7ac2f",
+            "size": 1239,
+            "platform": {
+                "architecture": "amd64",
+                "os": "linux"
+            }
+        }
+    }
+]

@@ -14,7 +14,7 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
 		--dbname=${DB_NAME} \
 		--dbuser=${DB_USER} \
 		--dbpass=$(cat /run/secrets/db_password) \
-		--dbhost=mariadb \
+		--dbhost=mariadb:3306 \
 		--path=/var/www/html
 fi
 

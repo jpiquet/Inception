@@ -8,7 +8,7 @@ mkdir -p /run/mysqld
 # on définit le propriétaire du dossier sur l'utilisateur mysql pour que MariaDB puisse y accéder
 chown mysql:mysql /run/mysqld
 
-# on initialise le dsossier qui stockera les fichiers de la base de donné (sur le volume monté)
+# on initialise le dossier qui stockera les fichiers de la base de donné (sur le volume monté)
 if [ ! -d "/var/lib/mysql/mysql" ]; then
     mariadb-install-db --user=mysql --datadir=/var/lib/mysql
 fi
@@ -21,18 +21,16 @@ mariadbd --user=mysql &
 PID=$!
 
 #on attend que le serveur MariaDB soit prêt à accepter les connexions
-echo coucou
 until mariadb -u root --password=$(cat /run/secrets/db_root_password) -e "SELECT 1;" >/dev/null 2>&1; do
-	echo "in loop"
     sleep 1
 done
-echo caca
+#echo caca
 
 # on crée la base de données wordpress si elle n'existe pas déjà
 # on crée l'utilisateur 'db_user' avec le mot de passe 'db_password' s'il n'existe pas déjà
 # on accorde tous les privilèges sur la base de données 'wordpress' à l'utilisateur ''
 # on applique les changements de privilèges
-mariadb -u root --password=$(cat /run/secrets/db_root_password)" <<EOF
+mariadb -u root --password=$(cat /run/secrets/db_root_password) <<EOF
 CREATE DATABASE IF NOT EXISTS ${DB_NAME};
 CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '$(cat /run/secrets/db_password)';
 ALTER USER 'root'@'localhost' IDENTIFIED BY '$(cat /run/secrets/db_root_password)';

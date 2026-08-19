@@ -1,2 +1,3 @@
 - Faire le healthcheck pour mariadb
 - Faire le Makefile
+- Remplacer les secrets par des secrets.exemple

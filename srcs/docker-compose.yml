@@ -4,6 +4,7 @@
 services:
   nginx:
     image: nginx
+    pull_policy: build
     container_name: nginx
     build: requirements/nginx/.
     volumes:
@@ -12,6 +13,9 @@ services:
       - 443:443
     depends_on:
       - wordpress
+    secrets:
+      - inception.crt
+      - inception.key
     networks:
       - inception
     restart: always
@@ -22,10 +26,9 @@ services:
     build: ./requirements/wordpress/.
     volumes:
       - wordpress:/var/www/html
-    expose:
-      - 9000
     depends_on:
-      - mariadb
+      mariadb:
+        condition: service_healthy
     env_file:
       - .env
     secrets:
@@ -42,8 +45,6 @@ services:
     build: ./requirements/mariadb/.
     volumes:
       - mariadb:/var/lib/mysql
-    expose:
-      - 3306
     healthcheck:
       test: [ "CMD", "mariadb-admin", "ping", "-h", "localhost", "-u", "healthcheck" ]
       interval: 5s
@@ -59,7 +60,6 @@ services:
     networks:
       - inception
     restart: always
-    init: true
 
 secrets:
   db_password:
@@ -70,6 +70,10 @@ secrets:
     file: /home/${USER}/Inception/secrets/admin_password.txt
   user_password:
     file: /home/${USER}/Inception/secrets/user_password.txt
+  inception.crt:
+    file: /home/${USER}/Inception/secrets/inception.crt
+  inception.key:
+    file: /home/${USER}/Inception/secrets/inception.key
 
 volumes:
   wordpress:
