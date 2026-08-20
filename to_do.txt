@@ -1,3 +1,2 @@
-- Faire le healthcheck pour mariadb
-- Faire le Makefile
 - Remplacer les secrets par des secrets.exemple
+- Ajouter au makefile le fait de generer une certif pour https.
