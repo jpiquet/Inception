@@ -39,14 +39,41 @@ For the docker volume (named volume), you just name your volume and the storing 
 ## Instruction
 
 My network need to be launch with make.
-It will create directory file for mariadb and wordpress volumes at this path: /home/*login*/data/.
+
+make will launch the start_script.sh in tools.
+You'll have to enter every information to create .env & secrets files.
+
+Database user is the user who will interact with the database, modifies and add data on it.
+Admin user is the admin of your wordpress.
+User is just a basic user with limited right on wordpress.
+
+Each of password you enter are going to be on differents file stored in the secrets directory.
 It will create ssl certificat & certificat key for the tsl and put it in the secrets/ directory.
-All secrets has to be filled with the good informations depend on the commentary in it.
 
-Some commands that are useful to monitor image & container that are launch.
+It will create directory file for mariadb and wordpress volumes at this path: /home/*login*/data/
 
-docker ps : show all container that are run. Add -a to see all even ones that are stopped.
-docker image ls: show informations about images built.
-docker logs <id_container> : Show logs about a specific container.
-docker inspect <id_container>
+Do make fclean : If you want to delete everything included volumes.
 
+Do make re : If you want to delete everything included volumes and rebuilt each container.
+
+## Ressources
+
+https://www.youtube.com/watch?v=dH3DdLy574M&list=PLIhvC56v63IJlnU4k60d0oFIrsbXEivQo
+https://www.youtube.com/watch?v=pg19Z8LL06w
+https://www.youtube.com/watch?v=DM65_JyGxCo&list=PLIhvC56v63IJlnU4k60d0oFIrsbXEivQo&index=6
+https://www.youtube.com/watch?v=mspEJzb8LC4
+https://www.youtube.com/watch?v=SXB6KJ4u5vg
+https://www.youtube.com/watch?v=ES4BcZcsBdU
+https://courses.mooc.fi/org/uh-cs/courses/devops-with-docker/chapter-2/in-depth-dive-into-images
+https://www.delftstack.com/fr/howto/docker/difference-between-cmd-and-entrypoint/
+https://tuto.grademe.fr/inception/
+https://www.youtube.com/watch?v=y1QUtn_x12I
+https://www.museeinformatique.fr/wordpress-docker-mariadb-nginx/
+https://www.youtube.com/watch?v=lh4RnczaATI
+https://wpshell.com/lesson/install-php-fpm/
+https://make.wordpress.org/cli/handbook/how-to/how-to-install/
+https://blog.stephane-robert.info/docs/conteneurs/moteurs-conteneurs/docker/volumes/
+https://www.baeldung.com/ops/docker-compose-expose-vs-ports
+https://thisvsthat.io/docker-network-vs-host-network
+
+I've used AI for information like how to write a script the good way and for correction of my readme's.

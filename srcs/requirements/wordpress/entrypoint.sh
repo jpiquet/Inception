@@ -23,8 +23,8 @@ echo "Configuration file wp-config.php was created successfully"
 # on installe WordPress avec les informations fournies dans le fichier .env
 if ! wp core is-installed --allow-root --path=/var/www/html >/dev/null 2>&1; then
 	wp core install --allow-root \
-		--url=${URL_NAME} \
-		--title=${TITLE_NAME} \
+		--url=jpiquet.42.fr \
+		--title=Inception \
 		--admin_user=${ADMIN_NAME} \
 		--admin_password=$(cat /run/secrets/admin_password) \
 		--admin_email=${ADMIN_EMAIL} \

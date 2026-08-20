@@ -9,9 +9,7 @@ int main(int ac, char **av)
 	for (int i = 0; i < str.size(); i++)
 	{
 		str[i] = tolower(str[i]);
-	} 
-	std::cout << str << std::endl;
-
+	}
 	if (str.find("admin") != std::string::npos)
 		return 1;
 	return 0;
