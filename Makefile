@@ -20,6 +20,12 @@ up: db-volume wp-volume
 down:
 	$(COMPOSE) down
 
+stop:
+	$(COMPOSE) down
+
+start:
+	$(COMPOSE) start
+
 logs:
 	$(COMPOSE) logs
 
@@ -31,3 +37,5 @@ fclean: clean
 	sudo rm -rf /home/$(USER)/data/mariadb /home/$(USER)/data/wordpress
 
 re: fclean all
+	rm -rf secrets
+	rm -f srcs/.env

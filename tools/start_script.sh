@@ -1,9 +1,7 @@
 #!/bin/bash
 INC="/home/${USER}/Inception"
 
-echo ${INC}
-
-if [ ! -f ".env" ]; then
+if [ ! -f "${INC}/srcs/.env" ]; then
 	echo "Creating .env file & secrets.."
 	touch ${INC}/srcs/.env
 	mkdir ${INC}/secrets
@@ -21,23 +19,24 @@ if [ ! -f ".env" ]; then
 
 	echo -n "Database user password: "
 	read DBPASS
-	echo -n ${DBPASS} > ${INC}/secrets/db_passord.txt
+	echo -n ${DBPASS} > ${INC}/secrets/db_password.txt
 
 	echo -n "Database root password: "
 	read ROOTPASS
-	echo -n ${ROOTPASS} > ${INC}/secrets/db_root_passord.txt
+	echo -n ${ROOTPASS} > ${INC}/secrets/db_root_password.txt
 
 	# WORDPRESS ENV + SECRETS
 	echo -n "Wordpress admin username (can't contains \"admin\"): "
 	read ADMIN
 
 	# admin = ${ADMIN}
-	until search_str ${ADMIN}
+	until ${INC}/tools/search_str ${ADMIN}
 	do
 		echo -n "Wordpress admin username (can't contains \"admin\"): "
 		read ADMIN
 	done
 	echo "ADMIN_NAME=${ADMIN}" >> ${INC}/srcs/.env
+	echo "ADMIN_EMAIL=${ADMIN}@42.fr" >> ${INC}/srcs/.env
 
 	echo -n "Wordpress admin password: "
 	read ADMINPASS
@@ -45,7 +44,8 @@ if [ ! -f ".env" ]; then
 
 	echo -n "Wordpress user username: "
 	read USER
-	echo -n ${USER} >> ${INC}/srcs/.env
+	echo "USER_NAME=${USER}" >> ${INC}/srcs/.env
+	echo "USER_EMAIL=${USER}@42.fr" >> ${INC}/srcs/.env
 
 	echo -n "Wordpress user password: "
 	read USERPASS
