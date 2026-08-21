@@ -1,79 +1,176 @@
-*This project has been created as a part og the 42 curriculum by jpiquet*
+*This project has been created as part of the 42 curriculum by jpiquet.*
 
 # Inception
 
 ## Description
 
-This project consists of set up a small infrastructure composed of different services:
-- Nginx: a web server who get request from the navigateur, if it receive php it will send it to php-fpm thanks to fastgi.
-- Wordpress: Is the application who contain the php code that will be executed by php-fpm.
-- Mariadb: the data base where everything that wordpress needs to work
-Each service will have it's own **Docker container** and they're will be linked with **Docker compose**.
+Inception is a system administration project from the 42 curriculum. Its goal is to build a small web infrastructure using Docker Compose and several independent services.
 
-### Virtual Machine vs Docker
+The infrastructure is composed of three containers:
 
-A virtual machine can virtualize a computer, it has it's own OS. Therefore this it can be deploye on every computer with different OS, unlike docker container.
-A docker share it's OS with the host. This sharing with the host machine allows it to be lighter and run really fast.
-Docker allows also to deploye an application and every dependencies in one container and run hundreds of application without surcharging the systeme.
-It helps to guarantee that every codes of the application work on every computer.
+- **NGINX**: the only public entry point. It handles HTTPS requests using TLS and forwards PHP requests to PHP-FPM.
+- **WordPress + PHP-FPM**: runs the WordPress application and executes its PHP code through PHP-FPM.
+- **MariaDB**: stores the data required by WordPress.
+
+Each service runs in its own dedicated Docker container. The containers communicate through a dedicated Docker network.
+
+### Virtual Machines vs Docker
+
+A **virtual machine (VM)** virtualizes an entire computer, including its operating system. Each VM therefore contains its own OS and requires more resources.
+A **Docker container** virtualizes the application environment while sharing the host's kernel. Containers are generally lighter and start faster than virtual machines.
+For this project, the VM is the environment required by the 42 subject, while Docker is used inside that VM to isolate and run the different services.
 
 ### Secrets vs Environment Variables
 
-Secrets are files that will be copied directly to the container in /etc/secrets and used only when the container is run.
-Environement variable are going to be add to the variable environement of the container and used when the image is mount.
-That's why, for security reason we aren't going to add informations like password or certification key to the env cause its could be visible in the image that we will potentialy push to docker hub.
+**Environment variables** are values made available to a process through its environment. They are useful for configuration such as database names, usernames, and domain names.
+**Docker secrets** are intended for sensitive information such as passwords and credentials. A secret is made available to a container as a file, rather than being stored directly in the Dockerfile.
+For this project, passwords and other confidential credentials should not be written in Dockerfiles or committed to the Git repository. Non-sensitive configuration can be stored in `.env`.
 
 ### Docker Network vs Host Network
 
-Docker Network and Host Network are two different networking modes in Docker. Docker Network allows containers to communicate with each other and with external networks using a virtual network created by Docker. 
-This provides isolation and security for containers. On the other hand, Host Network allows containers to use the host machine's network stack directly, bypassing Docker's network isolation. 
-This can provide better performance but may also pose security risks as containers have direct access to the host network. 
-Overall, Docker Network is more commonly used for its security and isolation benefits, while Host Network may be preferred for performance-critical applications.
+A **Docker network** creates an isolated network through which containers can communicate using their service or container names. It provides network isolation between the containers and the host.
+With **host networking**, a container uses the host's network stack directly and does not get the same network isolation provided by a normal Docker network.
+This project uses a dedicated Docker network because the services need to communicate with each other while keeping the infrastructure isolated from the host network.
 
 ### Docker Volumes vs Bind Mounts
 
-A volume is used to store data that your application created since when a container is stopped every thing that is store in it will be deleted. It's a file that is share with the container and the host machine.
-There is differents type of volume. Docker volume and bind mount. With bind mounts volume you can define a specific path where you'll store the volume on your computer. 
-For the docker volume (named volume), you just name your volume and the storing is managed by Docker.
+Both mechanisms allow data to persist outside the writable layer of a container.
+A **bind mount** directly maps a specific path from the host filesystem into a container. The host path is explicitly controlled by the user.
+A **Docker named volume** is managed by Docker and has its own name. Docker handles the volume's lifecycle and mounting.
+This project requires two **named volumes**:
+- one for the MariaDB database;
+- one for the WordPress website files.
 
-## Instruction
+## Instructions
 
-My network need to be launch with make.
+### Installation and configuration
 
-make will launch the start_script.sh in tools.
-You'll have to enter every information to create .env & secrets files.
+The project is initialized using the Makefile.
 
-Database user is the user who will interact with the database, modifies and add data on it.
-Admin user is the admin of your wordpress.
-User is just a basic user with limited right on wordpress.
+```bash
+make
+```
 
-Each of password you enter are going to be on differents file stored in the secrets directory.
-It will create ssl certificat & certificat key for the tsl and put it in the secrets/ directory.
+The startup script creates the required configuration and secret files and asks for the information needed to configure the infrastructure.
 
-It will create directory file for mariadb and wordpress volumes at this path: /home/*login*/data/
+The configuration includes:
 
-Do make fclean : If you want to delete everything included volumes.
+- the database name;
+- the database user;
+- the database password;
+- the WordPress administrator;
+- the WordPress regular user;
+- the corresponding passwords.
 
-Do make re : If you want to delete everything included volumes and rebuilt each container.
+Sensitive passwords are stored in the `secrets/` directory rather than directly in Dockerfiles.
 
-## Ressources
+The project also generates the TLS certificate and private key required by NGINX.
 
-https://www.youtube.com/watch?v=dH3DdLy574M&list=PLIhvC56v63IJlnU4k60d0oFIrsbXEivQo
-https://www.youtube.com/watch?v=pg19Z8LL06w
-https://www.youtube.com/watch?v=DM65_JyGxCo&list=PLIhvC56v63IJlnU4k60d0oFIrsbXEivQo&index=6
-https://www.youtube.com/watch?v=mspEJzb8LC4
-https://www.youtube.com/watch?v=SXB6KJ4u5vg
-https://www.youtube.com/watch?v=ES4BcZcsBdU
-https://courses.mooc.fi/org/uh-cs/courses/devops-with-docker/chapter-2/in-depth-dive-into-images
-https://www.delftstack.com/fr/howto/docker/difference-between-cmd-and-entrypoint/
-https://tuto.grademe.fr/inception/
-https://www.youtube.com/watch?v=y1QUtn_x12I
-https://www.museeinformatique.fr/wordpress-docker-mariadb-nginx/
-https://www.youtube.com/watch?v=lh4RnczaATI
-https://wpshell.com/lesson/install-php-fpm/
-https://make.wordpress.org/cli/handbook/how-to/how-to-install/
-https://blog.stephane-robert.info/docs/conteneurs/moteurs-conteneurs/docker/volumes/
-https://www.baeldung.com/ops/docker-compose-expose-vs-ports
-https://thisvsthat.io/docker-network-vs-host-network
+The persistent data directories are located under:
 
-I've used AI for information like how to write a script the good way and for correction of my readme's.
+```text
+/home/<login>/data/
+```
+
+with separate storage for MariaDB and WordPress.
+
+### Starting the project
+
+Run:
+
+```bash
+make
+```
+
+This builds the Docker images and starts the infrastructure using Docker Compose.
+
+Once the services are running, the website is available through:
+
+```text
+https://jpiquet.42.fr
+```
+
+Only NGINX is exposed to the host on port `443`.
+
+### Stopping the project
+
+The exact Docker Compose commands can be used to stop or remove the containers. The Makefile also provides cleanup targets.
+
+To remove the containers, images, networks and persistent volumes according to the project's cleanup configuration:
+
+```bash
+make fclean
+```
+
+To perform a full cleanup and rebuild the project:
+
+```bash
+make re
+```
+
+> **Warning:** `make fclean` removes persistent project data. Make sure you understand which volumes and data are being deleted before using it.
+
+### Useful Docker commands
+
+Check the running containers:
+
+```bash
+docker ps
+```
+
+Display the logs of a service:
+
+```bash
+docker logs <container>
+```
+
+Open a shell inside a running container:
+
+```bash
+docker exec -it <container> bash
+```
+
+List Docker volumes:
+
+```bash
+docker volume ls
+```
+
+Inspect the Docker network:
+
+```bash
+docker network ls
+```
+
+## Resources
+
+### Docker
+
+- Docker documentation: https://docs.docker.com/
+- Docker Compose documentation: https://docs.docker.com/compose/
+- Docker volumes: https://docs.docker.com/engine/storage/volumes/
+- Docker networking: https://docs.docker.com/engine/network/
+- Docker `CMD` vs `ENTRYPOINT`: https://www.delftstack.com/fr/howto/docker/difference-between-cmd-and-entrypoint/
+
+### NGINX, PHP-FPM and WordPress
+
+- PHP-FPM introduction: https://wpshell.com/lesson/install-php-fpm/
+- WP-CLI installation documentation: https://make.wordpress.org/cli/handbook/how-to/how-to-install/
+- WordPress Docker / MariaDB / NGINX overview: https://www.museeinformatique.fr/wordpress-docker-mariadb-nginx/
+
+### Additional tutorials and explanations
+
+- Docker tutorial: https://www.youtube.com/watch?v=dH3DdLy574M
+- Docker Compose tutorial: https://www.youtube.com/watch?v=pg19Z8LL06w
+- Docker networking tutorial: https://www.youtube.com/watch?v=DM65_JyGxCo
+- Docker volumes: https://blog.stephane-robert.info/docs/conteneurs/moteurs-conteneurs/docker/volumes/
+- Docker `EXPOSE` vs published ports: https://www.baeldung.com/ops/docker-compose-expose-vs-ports
+- Docker network vs host network: https://thisvsthat.io/docker-network-vs-host-network
+- Inception tutorial: https://tuto.grademe.fr/inception/
+
+### AI usage
+
+AI was used for:
+
+- correcting and improving the English and structure of this README;
+- discussing approaches for writing and organizing shell scripts and Makefile rules.

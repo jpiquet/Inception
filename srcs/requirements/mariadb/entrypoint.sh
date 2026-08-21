@@ -2,34 +2,31 @@
 
 set -eu
 
-# crée le dossier pour le socket de MariaDB
+# Create the directory for the MariaDB socket
 mkdir -p /run/mysqld
 
-# on définit le propriétaire du dossier sur l'utilisateur mysql pour que MariaDB puisse y accéder
+# Set the directory owner to the mysql user so that MariaDB can access it
 chown mysql:mysql /run/mysqld
 
-# on initialise le dossier qui stockera les fichiers de la base de donné (sur le volume monté)
+# Initialize the directory that will store the database files (on the mounted volume)
 if [ ! -d "/var/lib/mysql/mysql" ]; then
-    mariadb-install-db --user=mysql --datadir=/var/lib/mysql
+	mariadb-install-db --user=mysql --datadir=/var/lib/mysql
 fi
 
-# on change les permissions du dossier pour etre sur que le user mysql puisse apporter des modifications
-#chown mysql:mysql /var/lib/mysql
-
-# on démarre le serveur MariaDB en arrière-plan et on récupère son PID
+# Start the MariaDB server in the background and store its PID
 mariadbd --user=mysql &
 PID=$!
 
-#on attend que le serveur MariaDB soit prêt à accepter les connexions
+# Wait until the MariaDB server is ready to accept connections
 until mariadb -u root --password=$(cat /run/secrets/db_root_password) -e "SELECT 1;" >/dev/null 2>&1; do
-    sleep 1
+	sleep 1
 done
-#echo caca
 
-# on crée la base de données wordpress si elle n'existe pas déjà
-# on crée l'utilisateur 'db_user' avec le mot de passe 'db_password' s'il n'existe pas déjà
-# on accorde tous les privilèges sur la base de données 'wordpress' à l'utilisateur ''
-# on applique les changements de privilèges
+# Create the WordPress database if it does not already exist
+# Create the 'db_user' user with the 'db_password' password if it does not already exist
+# Grant all privileges on the 'wordpress' database to the user ''
+# Apply the privilege changes
+
 mariadb -u root --password=$(cat /run/secrets/db_root_password) <<EOF
 CREATE DATABASE IF NOT EXISTS ${DB_NAME};
 CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '$(cat /run/secrets/db_password)';
@@ -39,13 +36,13 @@ GRANT ALL PRIVILEGES ON ${DB_NAME}.* TO '${DB_USER}'@'%';
 FLUSH PRIVILEGES;
 EOF
 
-#on arrête le serveur MariaDB
+# Stop the MariaDB server
 kill "$PID"
 
-#on attend que le serveur MariaDB se termine avant de continuer
+# Wait for the MariaDB server to terminate before continuing
 wait "$PID"
 
 echo "Mariadb is ready !"
 
-#on redémarre le serveur MariaDB en mode premier plan pour que le conteneur continue de fonctionner
+# Restart the MariaDB server in the foreground so that the container keeps running
 exec mariadbd --user=mysql

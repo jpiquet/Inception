@@ -1,20 +1,19 @@
 FROM debian:bookworm
 
-#INSTALL WORDPRESS
+# Install wordpress
 RUN apt update -y \
 	&& apt install wget -y \
 	&& apt install tar -y \
 	&& wget https://wordpress.org/latest.tar.gz \
 	&& tar -xzvf latest.tar.gz \
 	&& mkdir -p /var/www/html
-#	&& mv wordpress /worpress \
 
-#INTALL PHP-FPM
+# Install php-fpm
 RUN apt install -y \
 	php8.2-fpm \
 	php8.2-mysql
 
-# on installe WP-CLI pour gérer WordPress en ligne de commande
+# Install WP-CLI for configurate wordpress with command line.
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar \
 	&& mv wp-cli.phar /usr/local/bin/wp \
 	&& chmod +x /usr/local/bin/wp

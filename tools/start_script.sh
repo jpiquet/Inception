@@ -61,5 +61,3 @@ if [ ! -f "${INC}/secrets/inception.crt" ]; then
 	-keyout ${INC}/secrets/inception.key \
 	-subj /C=FR/ST=RH/L=Lyon/O=42/OU=42/CN=jpiquet.42.fr
 fi
-
-#rm -f start_script

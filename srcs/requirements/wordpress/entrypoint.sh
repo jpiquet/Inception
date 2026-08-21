@@ -2,13 +2,13 @@
 
 set -eu
 
-# on copie les fichiers de wordpress dans le dossier /var/www/html uniquement si il n'existe pas déjá un fichier index.php
+# Copy the WordPress files to /var/www/html only if an index.php file does not already exist
 if [ ! -f "/var/www/html/index.php" ]; then
-    cp -a /wordpress/. /var/www/html/
+	cp -a /wordpress/. /var/www/html/
 fi
 
-# on crée le fichier de configuration wp-config.php avec les informations de la base de données
-# uniquement si il n'existe pas déjá
+# Create the wp-config.php configuration file with the database information
+# only if it does not already exist
 if [ ! -f "/var/www/html/wp-config.php" ]; then
 	wp config create --allow-root \
 		--dbname=${DB_NAME} \
@@ -20,7 +20,7 @@ fi
 
 echo "Configuration file wp-config.php was created successfully"
 
-# on installe WordPress avec les informations fournies dans le fichier .env
+# Install WordPress using the information provided in the .env file
 if ! wp core is-installed --allow-root --path=/var/www/html >/dev/null 2>&1; then
 	wp core install --allow-root \
 		--url=jpiquet.42.fr \
@@ -31,13 +31,13 @@ if ! wp core is-installed --allow-root --path=/var/www/html >/dev/null 2>&1; the
 		--path=/var/www/html
 
 	wp user create --allow-root \
-	${USER_NAME} \
-	${USER_EMAIL} \
-	--user_pass=$(cat /run/secrets/user_password) \
-	--path=/var/www/html
+		${USER_NAME} \
+		${USER_EMAIL} \
+		--user_pass=$(cat /run/secrets/user_password) \
+		--path=/var/www/html
 fi
 
 echo "WordPress installed successfully"
 
-# on execute php-fpm au premier plan grace a -F (forground)
+# Run PHP-FPM in the foreground using -F (foreground mode)
 exec php-fpm8.2 -F

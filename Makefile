@@ -20,11 +20,11 @@ up: db-volume wp-volume
 down:
 	$(COMPOSE) down
 
-stop:
-	$(COMPOSE) down
-
 start:
 	$(COMPOSE) start
+
+stop:
+	$(COMPOSE) stop
 
 logs:
 	$(COMPOSE) logs

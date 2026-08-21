@@ -49,16 +49,16 @@ make re
 
 **Warning:** cleanup commands can remove persistent project data. Do not use them if you need to preserve the WordPress database or website files.
 
-If only a temporary stop is required, Docker Compose can be used directly:
+If only a temporary stop is required:
 
 ```bash
-docker compose -f srcs/docker-compose.yml stop
+make stop
 ```
 
 The containers can then be started again with:
 
 ```bash
-docker compose -f srcs/docker-compose.yml start
+make start
 ```
 
 ## Accessing the website
@@ -79,10 +79,6 @@ The WordPress administration panel is available at:
 https://jpiquet.42.fr/wp-admin/
 ```
 
-Log in using the WordPress administrator credentials created during the project setup.
-The administrator username must not contain `admin` or `administrator`, as required by the project subject.
-A second WordPress user is also created as a regular user with more limited permissions.
-
 ## Credentials and secrets
 
 Passwords and other sensitive credentials are stored locally in the `secrets/` directory and must not be committed to Git.
@@ -100,8 +96,6 @@ The data is stored on the host under:
 ```text
 /home/<login>/data/
 ```
-
-This means that removing a container does not, by itself, remove the persistent WordPress or MariaDB data.
 
 ## Checking the services
 
@@ -126,34 +120,3 @@ docker logs nginx
 docker logs wordpress
 docker logs mariadb
 ```
-
-To follow the logs in real time:
-
-```bash
-docker logs -f nginx
-```
-
-You can use the same command for the other services.
-
-To inspect the Docker network:
-
-```bash
-docker network ls
-docker network inspect <network_name>
-```
-
-To check the persistent volumes:
-
-```bash
-docker volume ls
-docker volume inspect <volume_name>
-```
-
-## Security considerations
-
-- Use HTTPS to access the website.
-- Do not expose MariaDB directly to the host unless required for a specific development or debugging purpose.
-- Do not expose PHP-FPM directly to the host.
-- Keep passwords in secrets rather than Dockerfiles.
-- Do not commit `.env` or secret files containing confidential information.
-- NGINX is the only public entry point of the mandatory infrastructure.
