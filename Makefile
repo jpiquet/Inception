@@ -29,7 +29,8 @@ stop:
 logs:
 	$(COMPOSE) logs
 
-clean: down
+clean:
+	$(COMPOSE) down -v
 	docker image prune -af
 
 fclean: clean
