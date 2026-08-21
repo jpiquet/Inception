@@ -71,17 +71,17 @@ services:
 
 secrets:
   db_password:
-    file: /home/${USER}/Inception/secrets/db_password.txt
+    file: ../secrets/db_password.txt
   db_root_password:
-    file: /home/${USER}/Inception/secrets/db_root_password.txt
+    file: ../secrets/db_root_password.txt
   admin_password:
-    file: /home/${USER}/Inception/secrets/admin_password.txt
+    file: ../secrets/admin_password.txt
   user_password:
-    file: /home/${USER}/Inception/secrets/user_password.txt
+    file: ../secrets/user_password.txt
   inception.crt:
-    file: /home/${USER}/Inception/secrets/inception.crt
+    file: ../secrets/inception.crt
   inception.key:
-    file: /home/${USER}/Inception/secrets/inception.key
+    file: ../secrets/inception.key
 
 volumes:
   wordpress:

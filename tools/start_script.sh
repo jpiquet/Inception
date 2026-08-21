@@ -1,5 +1,5 @@
 #!/bin/bash
-INC="/home/${USER}/Inception"
+INC=${PWD}
 
 if [ ! -f "${INC}/srcs/.env" ]; then
 	echo "Creating .env file & secrets.."
