@@ -18,8 +18,6 @@ if [ ! -f "/var/www/html/wp-config.php" ]; then
 		--path=/var/www/html
 fi
 
-echo "Configuration file wp-config.php was created successfully"
-
 # Install WordPress using the information provided in the .env file
 if ! wp core is-installed --allow-root --path=/var/www/html >/dev/null 2>&1; then
 	wp core install --allow-root \
@@ -36,8 +34,6 @@ if ! wp core is-installed --allow-root --path=/var/www/html >/dev/null 2>&1; the
 		--user_pass=$(cat /run/secrets/user_password) \
 		--path=/var/www/html
 fi
-
-echo "WordPress installed successfully"
 
 # Run PHP-FPM in the foreground using -F (foreground mode)
 exec php-fpm8.2 -F
